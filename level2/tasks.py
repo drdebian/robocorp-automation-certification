@@ -4,14 +4,17 @@ from RPA.HTTP import HTTP
 from RPA.PDF import PDF
 import pandas as pd
 import os
+import shutil
 
 
 order_csv_url = "https://robotsparebinindustries.com/orders.csv"
 order_csv_filename = "orders.csv"
 order_website_url = "https://robotsparebinindustries.com/#/robot-order"
 output_directory = "output"
-receipts_directory = os.path.join(os.getcwd(), "output", "receipts")
-screenshots_directory = os.path.join(os.getcwd(), "output", "screenshots")
+receipts_directory = os.path.join(os.getcwd(), output_directory, "receipts")
+screenshots_directory = os.path.join(os.getcwd(), output_directory, "screenshots")
+receipts_archive_filename = "robot-orders"
+receipts_archive_path = os.path.join(os.getcwd(), output_directory, receipts_archive_filename)
 
 
 @task
@@ -78,7 +81,7 @@ def order_robots_from_RobotSpareBin():
         close_annoying_modal()
 
     # create zip archive of the receipts
-
+    archive_receipts()
 
 def open_robot_order_website():
     """Navigates to the given URL"""
@@ -153,3 +156,6 @@ def embed_screenshot_to_receipt(screenshot, pdf_file):
     image = [f'{screenshot}:align=center']
     pdf.add_files_to_pdf(image, pdf_file, append=True)
 
+
+def archive_receipts():
+    shutil.make_archive(receipts_archive_path, 'zip', receipts_directory)
