@@ -71,6 +71,7 @@ def order_robots_from_RobotSpareBin():
         screenshot_path = screenshot_robot(row["Order number"])
 
         # embed screenshot to the PDF
+        embed_screenshot_to_receipt(screenshot_path, receipt_path)
 
         # load form to order another robot
         page.click("#order-another")
@@ -83,7 +84,7 @@ def open_robot_order_website():
     """Navigates to the given URL"""
     browser.goto(order_website_url)
     browser.configure(
-        slowmo=500,
+        slowmo=100,
     )
     global page
     page = browser.page()
@@ -132,7 +133,7 @@ def store_receipt_as_pdf(order_number):
     """Stores the receipt as a PDF file and returns the path to the file."""
     receipt_path = os.path.join(receipts_directory, f"robot-order-{order_number}.pdf")
     receipt_html = page.query_selector("#receipt").inner_html()
-    print(f"Receipt HTML: {receipt_html}")
+    # print(f"Receipt HTML: {receipt_html}")
     pdf = PDF()
     pdf.html_to_pdf(receipt_html, receipt_path)
     return receipt_path
@@ -148,4 +149,7 @@ def screenshot_robot(order_number):
 
 
 def embed_screenshot_to_receipt(screenshot, pdf_file):
-    pass
+    pdf = PDF()
+    image = [f'{screenshot}:align=center']
+    pdf.add_files_to_pdf(image, pdf_file, append=True)
+
