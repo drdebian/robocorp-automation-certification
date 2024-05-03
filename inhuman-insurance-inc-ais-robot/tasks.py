@@ -1,3 +1,4 @@
+from robocorp import workitems
 from robocorp.tasks import task
 from RPA.HTTP import HTTP
 from RPA.JSON import JSON
@@ -31,12 +32,13 @@ def produce_traffic_data():
     filtered_data = filter_and_sort_traffic_data(traffic_data)
     filtered_data = get_latest_data_by_country(filtered_data)
     payloads = create_work_item_payloads(filtered_data)
+    save_work_item_payloads(payloads)
 
 
 @task
 def consume_traffic_data():
     """
-    Inhuman Insurance, Inc. Artificial Intelligence System robot.
+    Inhuman Insurance, Inc. Artificial Intelligence System automation.
     Consumes traffic data work items.
     """
     print("consume")
@@ -75,3 +77,9 @@ def create_work_item_payloads(traffic_data):
         )
         payloads.append(payload)
     return payloads
+
+
+def save_work_item_payloads(payloads):
+    for payload in payloads:
+        variables = dict(traffic_data=payload)
+        workitems.outputs.create(variables)
