@@ -3,6 +3,7 @@ from robocorp.tasks import task
 from RPA.HTTP import HTTP
 from RPA.JSON import JSON
 from RPA.Tables import Tables
+import requests
 
 http = HTTP()
 json = JSON()
@@ -38,7 +39,7 @@ def produce_traffic_data():
 @task
 def consume_traffic_data():
     """
-    Inhuman Insurance, Inc. Artificial Intelligence System automation.
+    Inhuman Insurance, Inc. Artificial Intelligence System robot.
     Consumes traffic data work items.
     """
     process_traffic_data()
@@ -47,11 +48,18 @@ def consume_traffic_data():
 def process_traffic_data():
     for item in workitems.inputs:
         traffic_data = item.payload["traffic_data"]
-        validate_traffic_data(traffic_data)
+        valid = validate_traffic_data(traffic_data)
+        if valid:
+            post_traffic_data_to_sales_system(traffic_data)
 
 
 def validate_traffic_data(traffic_data):
     return len(traffic_data["country"]) == 3
+
+
+def post_traffic_data_to_sales_system(traffic_data):
+    url = "https://robocorp.com/inhuman-insurance-inc/sales-system-api"
+    response = requests.post(url, json=traffic_data)
 
 
 ### vvv - producer functions - vvv
