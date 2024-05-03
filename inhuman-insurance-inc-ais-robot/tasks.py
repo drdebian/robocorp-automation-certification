@@ -58,6 +58,12 @@ def process_traffic_data():
                     code="TRAFFIC_DATA_POST_FAILED",
                     message=return_json["message"],
                 )
+        else:
+            item.fail(
+                exception_type="BUSINESS",
+                code="INVALID_TRAFFIC_DATA",
+                message=item.payload,
+            )
 
 
 def post_traffic_data_to_sales_system(traffic_data):
