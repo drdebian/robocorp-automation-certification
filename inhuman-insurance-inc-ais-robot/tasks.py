@@ -38,10 +38,18 @@ def produce_traffic_data():
 @task
 def consume_traffic_data():
     """
-    Inhuman Insurance, Inc. Artificial Intelligence System automation.
+    Inhuman Insurance, Inc. Artificial Intelligence System robot.
     Consumes traffic data work items.
     """
-    print("consume")
+    process_traffic_data()
+
+
+def process_traffic_data():
+    for item in workitems.inputs:
+        traffic_data = item.payload["traffic_data"]
+
+
+### vvv - producer functions - vvv
 
 
 def load_traffic_data_as_table():
