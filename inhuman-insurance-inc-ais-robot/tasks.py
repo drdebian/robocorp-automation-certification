@@ -38,7 +38,7 @@ def produce_traffic_data():
 @task
 def consume_traffic_data():
     """
-    Inhuman Insurance, Inc. Artificial Intelligence System robot.
+    Inhuman Insurance, Inc. Artificial Intelligence System automation.
     Consumes traffic data work items.
     """
     process_traffic_data()
@@ -47,6 +47,11 @@ def consume_traffic_data():
 def process_traffic_data():
     for item in workitems.inputs:
         traffic_data = item.payload["traffic_data"]
+        validate_traffic_data(traffic_data)
+
+
+def validate_traffic_data(traffic_data):
+    return len(traffic_data["country"]) == 3
 
 
 ### vvv - producer functions - vvv
