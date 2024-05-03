@@ -1,5 +1,6 @@
 {
     "python.analysis.extraPaths": [
-        "c:/devprojects/github/robocorp-automation-certification/level2/."
-    ]
+        "c:/Users/alber/devprojects/github/robocorp-automation-certification/inhuman-insurance-inc-ais-robot/."
+    ],
+    "python.terminal.activateEnvironment": false
 }
